@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Topic, Question } = require("../db/models");
+const { Topic, Question, Game, User } = require("../db/models");
 
 router.get("/topics", async (req, res) => {
   const topics = await Topic.findAll({
@@ -16,6 +16,13 @@ router.get("/questions", async (req, res) => {
   });
   console.log(questions);
   res.json(questions);
+});
+
+router.get("/profile/:id", async (req, res) => {
+  const { id } = req.params;
+  const currUser = await User.findOne({ where: { login: id }, raw: true });
+  const stats = await Game.findAll({ where: { user_id: currUser.id } });
+  res.json(stats);
 });
 
 module.exports = router;

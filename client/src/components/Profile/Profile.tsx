@@ -1,59 +1,47 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState, StatsType } from "../../types";
 
 export default function Profile() {
+  const user = useSelector((state: RootState) => state.SessionReducer.username);
+  const [stats, setStats] = useState<StatsType[]>([]);
+  useEffect(() => {
+    fetch(`http://localhost:3000/profile/${user}`)
+      .then((response) => response.json())
+      .then((data) => setStats(data));
+  }, []);
+
   return (
-    <div class="relative overflow-x-auto">
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <div className="mx-10 py-36">
+      <p className="block text-l font-medium leading-6 text-gray-900 m-5">
+        Game statistics
+      </p>
+      <table className="mx-auto w-7/12 text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" class="px-6 py-3">
-              Product name
+            <th scope="col" className="px-6 py-3">
+              Date
             </th>
-            <th scope="col" class="px-6 py-3">
-              Color
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Category
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Price
+            <th scope="col" className="px-6 py-3">
+              Score
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+          {stats.map((stat) => (
+            <tr
+              key={stat.id}
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
             >
-              Apple MacBook Pro 17"
-            </th>
-            <td class="px-6 py-4">Silver</td>
-            <td class="px-6 py-4">Laptop</td>
-            <td class="px-6 py-4">$2999</td>
-          </tr>
-          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              Microsoft Surface Pro
-            </th>
-            <td class="px-6 py-4">White</td>
-            <td class="px-6 py-4">Laptop PC</td>
-            <td class="px-6 py-4">$1999</td>
-          </tr>
-          <tr class="bg-white dark:bg-gray-800">
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              Magic Mouse 2
-            </th>
-            <td class="px-6 py-4">Black</td>
-            <td class="px-6 py-4">Accessories</td>
-            <td class="px-6 py-4">$99</td>
-          </tr>
+              <th
+                scope="row"
+                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                {stat.createdAt.toString()}
+              </th>
+              <td className="px-6 py-4">{stat.total_points}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

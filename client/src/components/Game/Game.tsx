@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Questions, Topics } from "../../types";
 
 export default function GameStart() {
-  const [allTopics, setAllTopics] = useState([]);
-  const [allQuestions, setAllQuestions] = useState([]);
+  const [allTopics, setAllTopics] = useState<Topics[]>([]);
+  const [allQuestions, setAllQuestions] = useState<Questions[]>([]);
 
   useEffect(() => {
     fetch("http://localhost:3000/topics")

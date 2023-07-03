@@ -2,9 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { DEL_USER } from "../../redux/payload.types";
+import { RootState } from "../../types";
 
 export default function NavBar() {
-  const user = useSelector((state) => state.SessionReducer.username);
+  const user = useSelector((state: RootState) => state.SessionReducer.username);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ export default function NavBar() {
                 {user ? (
                   <>
                     <Link
-                      to="/profile"
+                      to={`/profile/${user}`}
                       className="text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     >
                       {user}

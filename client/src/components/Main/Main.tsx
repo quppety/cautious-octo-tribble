@@ -1,12 +1,15 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { RootState } from "../../types";
 
 export default function Main() {
-  const user = useSelector((state) => state.SessionReducer.username);
+  const user = useSelector(
+    (state: RootState) => state.SessionReducer.username
+  );
 
   return (
-    <div className="flex py-48 justify-center align-middle">
+    <div className="py-48 justify-center align-middle">
       {user ? (
         <button
           className="text-white bg-purple-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
@@ -16,8 +19,9 @@ export default function Main() {
         </button>
       ) : (
         <>
-          <Link to="/signin">Войдите</Link> или{" "}
-          <Link to="/signup">зарегистрируйтесь</Link> чтобы начать игру
+          <Link to="/signin">Sign in </Link> or{" "}
+          <Link to="/signup"> sign up </Link> to play
+          <img src="/img.jpg" alt="" className="mx-auto my-10" />
         </>
       )}
     </div>
