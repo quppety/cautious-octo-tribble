@@ -1,9 +1,9 @@
-const router = require("express").Router();
-const bcrypt = require("bcrypt");
-const { Op } = require("sequelize");
-const { User } = require("../db/models");
+const router = require('express').Router();
+const bcrypt = require('bcrypt');
+const { Op } = require('sequelize');
+const { User } = require('../db/models');
 
-router.post("/signup", async (req, res) => {
+router.post('/signup', async (req, res) => {
   const { login, email, password } = req.body;
   try {
     const hashPassword = await bcrypt.hash(password, 8);
@@ -21,7 +21,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/signin", async (req, res) => {
+router.post('/signin', async (req, res) => {
   const { email, password } = req.body;
   try {
     const currentUser = await User.findOne({ where: { email }, raw: true });
@@ -44,13 +44,13 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.get("/logout", (req, res) => {
+router.get('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.log(err);
       res.sendStatus(500);
     } else {
-      res.clearCookie("connect.sid");
+      res.clearCookie('connect.sid');
       res.sendStatus(200);
     }
   });

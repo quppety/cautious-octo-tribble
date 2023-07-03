@@ -1,4 +1,4 @@
-const { Model } = require("sequelize");
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Topic extends Model {
@@ -8,8 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.hasMany(models.Game, { foreignKey: "topic_id" });
-      this.hasMany(models.Question, { foreignKey: "topic_id" });
+      this.hasMany(models.Question, { foreignKey: 'topic_id' });
     }
   }
   Topic.init(
@@ -18,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Topic",
+      modelName: 'Topic',
     }
   );
   return Topic;

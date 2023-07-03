@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.User, { foreignKey: "user_id" });
-      this.belongsTo(models.Topic, { foreignKey: "topic_id" });
     }
   }
   Game.init(
