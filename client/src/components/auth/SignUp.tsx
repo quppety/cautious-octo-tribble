@@ -35,7 +35,7 @@ export default function SignUp() {
                 type="text"
                 value={signUpInputs.login}
                 required
-                className="block w-full rounded-md border-0 pl-2 py-1.5 bg-blue-200 text-gray-900 shadow-sm placeholder:text-gray-400  focus:ring-blue-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md pl-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                 onChange={handleSignUpInputsChange}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
@@ -60,7 +60,7 @@ export default function SignUp() {
                 autoComplete="email"
                 value={signUpInputs.email}
                 required
-                className="block w-full rounded-md border-0 pl-2 py-1.5 bg-blue-200 text-gray-900 shadow-sm placeholder:text-gray-400  focus:ring-blue-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md pl-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                 onChange={handleSignUpInputsChange}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
@@ -88,7 +88,7 @@ export default function SignUp() {
                 value={signUpInputs.password}
                 autoComplete="current-password"
                 required
-                className="block w-full rounded-md border-0 pl-2 py-1.5 bg-blue-200 text-gray-900 shadow-sm placeholder:text-gray-400  focus:ring-blue-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md pl-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                 onChange={handleSignUpInputsChange}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {

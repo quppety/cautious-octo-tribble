@@ -20,8 +20,10 @@ export interface StatsType {
   id: number;
   userId: number;
   topicId: number;
-  corr_answers: number;
   totalPoints: number;
   createdAt: string;
   updatedAt: string;
+  User: {
+    login: string;
+  };
 }
