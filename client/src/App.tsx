@@ -1,26 +1,25 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import "./App.css";
-import Game from "./components/Game/Game";
-import NavBar from "./components/NavBar/NavBar";
-import SignIn from "./components/auth/SignIn";
-import SignUp from "./components/auth/SignUp";
-import Main from "./components/Main/Main";
-import Profile from "./components/Profile/Profile";
-import { useSelector } from "react-redux";
+import { Routes, Route } from 'react-router-dom';
+import { useAppSelector } from './redux/types/hooks';
+import { RootState } from './redux/store';
+import Main from './components/Main/Main';
+import SignIn from './components/auth/SignIn';
+import SignUp from './components/auth/SignUp';
+import Profile from './components/Profile/Profile';
+import NavBar from './components/NavBar/NavBar';
+import Game from './components/Game/Game';
+import './App.css';
 
 function App() {
-  const user = useSelector((state) => state.SessionReducer.username);
+  const user = useAppSelector((state: RootState) => state.session.username);
   return (
     <>
       <NavBar />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/topics" element={<Game />} />
-        <Route path={`/profile/${user}`} element={<Profile />} />
+        <Route path="/topics" element={user ? <Game /> : <Main />} />
+        <Route path="/profile" element={user ? <Profile /> : <Main />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        {/* <Route path="/profile" element={<Profile />} />*/}
       </Routes>
     </>
   );
