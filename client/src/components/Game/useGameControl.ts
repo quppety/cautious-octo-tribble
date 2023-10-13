@@ -1,56 +1,40 @@
 import { ChangeEvent } from 'react';
+import { RootState } from '../../redux/store';
 import {
   clearGameData,
   setCheckedQuestions,
   setChosenQuestion,
   setCurrAnswer,
-  setQuestions,
   setShowModal,
+  setStats,
   setTimer,
   setTopics,
   setUserPoints,
 } from '../../redux/gameControlSlice';
-import { RootState } from '../../redux/store';
 import { useAppDispatch, useAppSelector } from '../../redux/types/hooks';
-import { handleError } from '../../redux/sessionSlice';
 import { useNavigate } from 'react-router-dom';
+import { topics } from '../../data/quizData';
+import { Question } from '../../types';
 
 export const useGameControl = () => {
-  const { questions, chosenQuestion, currAnswer, userPoints } = useAppSelector(
+  const { chosenQuestion, currAnswer, userPoints } = useAppSelector(
     (state: RootState) => state.gameControl
   );
-
-  const user = useAppSelector((state: RootState) => state.session.username);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const fetchGameData = () => {
-    fetch('http://localhost:3000/api/game/topics')
-      .then((response) => response.json())
-      .then((data) => dispatch(setTopics(data)));
-
-    fetch('http://localhost:3000/api/game/questions')
-      .then((response) => response.json())
-      .then((data) => dispatch(setQuestions(data)));
+    dispatch(setTopics(topics));
   };
 
-  const handleOpenQuestion = (questionId: number): void => {
-    const selectedQuestion = questions.find((el) => el.id === questionId);
-    dispatch(setCheckedQuestions(questionId));
-
+  const handleOpenQuestion = (questionData: Question): void => {
+    const selectedQuestion = questionData;
+    dispatch(setCheckedQuestions(questionData.id));
+    console.log(selectedQuestion);
     if (selectedQuestion) {
       dispatch(setChosenQuestion(selectedQuestion));
       dispatch(setShowModal(true));
-      dispatch(
-        setQuestions(
-          questions.map((question) =>
-            question.id === questionId
-              ? { ...question, answered: true }
-              : question
-          )
-        )
-      );
       dispatch(setTimer(10));
     }
   };
@@ -75,8 +59,6 @@ export const useGameControl = () => {
         answer: '',
         topicId: 0,
         points: 0,
-        createdAt: '',
-        updatedAt: '',
         answered: false,
       })
     );
@@ -84,23 +66,10 @@ export const useGameControl = () => {
     dispatch(setShowModal(false));
   };
 
-  const handleGameEnd = async () => {
-    const data = { points: userPoints };
-    const response = await fetch(`http://localhost:3000/api/stats/${user}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-      credentials: 'include',
-    });
-    if (response.status === 200) {
-      navigate('/profile');
-      dispatch(clearGameData());
-    } else {
-      dispatch(handleError({ message: 'Something went wrong, try later' }));
-      setTimeout(() => {
-        dispatch(handleError({ message: '' }));
-      }, 1500);
-    }
+  const handleGameEnd = () => {
+    dispatch(setStats(userPoints));
+    dispatch(clearGameData());
+    navigate('/profile');
   };
 
   return {

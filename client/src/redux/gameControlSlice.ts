@@ -4,7 +4,6 @@ import { IGameControlState } from './types/gameControlTypes';
 
 const initialState: IGameControlState = {
   topics: [],
-  questions: [],
   checkedQuestions: [],
   chosenQuestion: {
     id: 0,
@@ -12,14 +11,13 @@ const initialState: IGameControlState = {
     answer: '',
     topicId: 0,
     points: 0,
-    createdAt: '',
-    updatedAt: '',
     answered: false,
   },
   currAnswer: '',
   userPoints: 0,
   showModal: false,
   timer: 10,
+  stats: [],
 };
 
 const rtkSlice = createSlice({
@@ -28,9 +26,6 @@ const rtkSlice = createSlice({
   reducers: {
     setTopics(state, action: PayloadAction<Topic[]>) {
       state.topics = action.payload;
-    },
-    setQuestions(state, action: PayloadAction<Question[]>) {
-      state.questions = action.payload;
     },
     setCheckedQuestions(state, action) {
       state.checkedQuestions.push(action.payload);
@@ -50,6 +45,9 @@ const rtkSlice = createSlice({
     setTimer(state, action) {
       state.timer = action.payload;
     },
+    setStats(state, action) {
+      state.stats.push(action.payload);
+    },
     clearGameData(state) {
       state.checkedQuestions = [];
       state.userPoints = 0;
@@ -61,12 +59,12 @@ const rtkSlice = createSlice({
 export default rtkSlice.reducer;
 export const {
   setTopics,
-  setQuestions,
   setCheckedQuestions,
   setChosenQuestion,
   setCurrAnswer,
   setUserPoints,
   setShowModal,
   setTimer,
+  setStats,
   clearGameData,
 } = rtkSlice.actions;

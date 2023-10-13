@@ -1,6 +1,4 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import sessionSlice from './sessionSlice';
-import authControlSlice from './authControlSlice';
 import gameControlSlice from './gameControlSlice';
 import localStorageMiddleware from './middleware/localStorageMiddleware';
 
@@ -18,8 +16,6 @@ const loadState = () => {
 
 export const store = configureStore({
   reducer: {
-    session: sessionSlice,
-    authControl: authControlSlice,
     gameControl: gameControlSlice,
   },
   preloadedState: loadState(),

@@ -1,9 +1,4 @@
-export type Topic = {
-  id: number;
-  title: string;
-  createdAt: string;
-  updatedAt: string;
-};
+export type Topic = { id: number; title: string; questions: Question[] };
 
 export interface Question {
   id: number;
@@ -12,8 +7,6 @@ export interface Question {
   topicId: number;
   points: number;
   answered?: boolean;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface StatsType {

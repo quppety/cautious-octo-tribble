@@ -18,7 +18,7 @@ export default function QuestionBtn({ el }: { el: Question }) {
         data-question-id={el.id}
         onClick={() => {
           if (!el.answered) {
-            handleOpenQuestion(el.id);
+            handleOpenQuestion(el);
           }
         }}
       >
