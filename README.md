@@ -16,6 +16,9 @@ Below is a picture showing the question selection field.
 
 Try the simplified demo [here](https://cautious-octo-tribble.vercel.app/)
 
+## Simplified version
+Switch to noServer branch to access the demo version (without server/database)
+
 
 ## Technologies
 
