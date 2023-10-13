@@ -1,113 +1,120 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { DEL_USER } from "../../redux/payload.types";
-import { RootState } from "../../types";
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../redux/types/hooks';
+import { signOutUserThunk } from '../../redux/thunks/thunkActionsAuth';
+import { RootState } from '../../redux/store';
 
 export default function NavBar() {
-  const user = useSelector((state: RootState) => state.SessionReducer.username);
+  const user = useAppSelector((state: RootState) => state.session.username);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleLogout = async (e: MouseEvent<HTMLButtonElement>) => {
-    const response = await fetch("http://localhost:3000/logout", {
-      method: "GET",
-      credentials: "include",
-    });
-    if (response.status === 200) {
-      dispatch({ type: DEL_USER });
-      navigate("/");
-    }
+  const getLinkClassName = (path: string): string => {
+    const isActive = location.pathname === path;
+    return `block rounded-md px-3 py-2 text-base font-medium ${
+      isActive
+        ? 'bg-yellow-900 text-white'
+        : 'text-yellow-400 hover:bg-yellow-400 hover:text-white'
+    }`;
+  };
+
+  const handleLogout = async (): Promise<void> => {
+    dispatch(signOutUserThunk());
+    navigate('/');
   };
 
   return (
-    <nav className="bg-purple-300">
+    <nav className="bg-blue-700">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-end">
-            <div className="hidden sm:ml-6 sm:block">
-              <div className="flex space-x-4">
+          <div className="md:hidden sm:hidden flex flex-1 items-center justify-between sm:items-stretch sm:justify-between">
+            <Link
+              to="/"
+              className="text-yellow-400 hover:bg-yellow-400 hover:text-blue-700 rounded-md px-3 py-2 text-base font-medium"
+            >
+              Home
+            </Link>
+            {user ? (
+              <div>
                 <Link
-                  to="/"
-                  className="text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                  to={'/profile'}
+                  className="text-yellow-400 hover:bg-yellow-400 hover:text-blue-700 rounded-md px-3 py-2 mr-10 text-base font-medium"
                 >
-                  Home
+                  {user}
                 </Link>
-                {user ? (
-                  <>
-                    <Link
-                      to={`/profile/${user}`}
-                      className="text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                    >
-                      {user}
-                    </Link>
-                    <button
-                      className="text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <Link
-                      to="/signin"
-                      className="text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                    >
-                      Sign in
-                    </Link>
-                    <Link
-                      to="/signup"
-                      className="text-gray-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                    >
-                      Sign up
-                    </Link>
-                  </>
-                )}
+                <button
+                  className="text-yellow-400 bg-transparent hover:bg-yellow-400 hover:text-blue-700 rounded-md px-3 py-2 text-base font-medium"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
               </div>
-            </div>
+            ) : (
+              <div>
+                <Link
+                  to="/signin"
+                  className="text-yellow-400 hover:bg-yellow-400 hover:text-blue-700 rounded-md mr-10 px-3 py-2 text-base font-medium"
+                >
+                  Sign in
+                </Link>
+                <Link
+                  to="/signup"
+                  className="text-yellow-400 hover:bg-yellow-400 hover:text-blue-700 rounded-md px-3 py-2 text-base font-medium"
+                >
+                  Sign up
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
       {/*
  Mobile menu, show/hide based on menu state. */}
-      <div className="sm:hidden" id="mobile-menu">
+      <div className="lg:hidden mt-[-20px]" id="mobile-menu">
         <div className="space-y-1 px-2 pb-3 pt-2">
-          {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
           <Link
-            to="/topics"
-            className="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium"
-            aria-current="page"
+            to="/"
+            className={getLinkClassName('/')}
+            aria-current={location.pathname === '/' ? 'page' : undefined}
           >
-            Play
+            Home
           </Link>
           {user ? (
             <>
               <Link
-                to="/profile"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+                to={'/profile'}
+                className={`${getLinkClassName('/profile')} w-full`}
+                aria-current={
+                  location.pathname === '/profile' ? 'page' : undefined
+                }
               >
                 {user}
               </Link>
-              <Link
-                to="/logout"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+              <button
+                className="w-full rounded-md px-3 py-2 text-base font-medium bg-transparent"
+                onClick={handleLogout}
               >
                 Logout
-              </Link>
+              </button>
             </>
           ) : (
             <>
               <Link
                 to="/signin"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+                className={getLinkClassName('/signin')}
+                aria-current={
+                  location.pathname === '/signin' ? 'page' : undefined
+                }
               >
                 Sign in
               </Link>
               <Link
                 to="/signup"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+                className={getLinkClassName('/signup')}
+                aria-current={
+                  location.pathname === '/signup' ? 'page' : undefined
+                }
               >
                 Sign up
               </Link>

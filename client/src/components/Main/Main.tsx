@@ -1,26 +1,34 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { RootState } from '../../types';
+import { RootState } from '../../redux/store';
+import { useAppSelector } from '../../redux/types/hooks';
 
 export default function Main() {
-  const user = useSelector((state: RootState) => state.SessionReducer.username);
-
+  const user = useSelector((state: RootState) => state.session.username);
+  const { checkedQuestions } = useAppSelector(
+    (state: RootState) => state.gameControl
+  );
   return (
-    <div className="py-48 justify-center align-middle">
+    <div className="block py-48 justify-center align-middle sm:py-10 sm:mt-40">
       {user ? (
         <Link
           to="/topics"
-          className="text-white bg-purple-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+          className="mx-auto my-12 justify-end hover:text-blue-700 hover:bg-yellow-400 bg-blue-700 text-yellow-400 rounded-md px-5 py-3 text-2xl font-semibold"
           type="button"
         >
-          New Game
+          {checkedQuestions.length > 0 ? 'Continue Game' : 'New Game'}
         </Link>
       ) : (
         <>
-          <Link to="/signin">Sign in </Link> or{' '}
-          <Link to="/signup"> sign up </Link> to play
-          <img src="/img.jpg" alt="" className="mx-auto my-10" />
+          <Link to="/signin" className="text-blue-900">
+            Sign in{' '}
+          </Link>{' '}
+          or{' '}
+          <Link to="/signup" className="text-blue-900">
+            {' '}
+            sign up{' '}
+          </Link>{' '}
+          to play
         </>
       )}
     </div>

@@ -2,24 +2,25 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
-      "Topics",
+      'Topics',
       [
         {
-          title: "Сериалы и фильмы",
+          title: 'Сериалы и фильмы',
         },
         {
-          title: "География",
+          title: 'География',
         },
         {
-          title: "Мемопедия",
+          title: 'Мемопедия',
         },
         {
-          title: "О, вы из англии",
+          title: 'О, вы из англии',
         },
         {
-          title: "Звездные воины",
-        },{
-          title: "Футбол",
+          title: 'Звездные воины',
+        },
+        {
+          title: 'Футбол',
         },
       ],
       {}
@@ -27,6 +28,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("Topics", null, {});
+    await queryInterface.bulkDelete('Topics', null, {});
   },
 };

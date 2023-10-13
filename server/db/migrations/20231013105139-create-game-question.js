@@ -1,44 +1,42 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Questions', {
+    await queryInterface.createTable('GameQuestions', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      question: {
-        type: Sequelize.STRING,
-      },
-      answer: {
-        type: Sequelize.STRING,
-      },
-      topicId: {
+      gameId: {
         type: Sequelize.INTEGER,
         references: {
           model: {
-            tableName: 'Topics',
+            tableName: 'Games',
           },
           key: 'id',
         },
       },
-      points: {
+      questionId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'Questions',
+          },
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('NOW'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('NOW'),
       },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Questions');
+    await queryInterface.dropTable('GameQuestions');
   },
 };

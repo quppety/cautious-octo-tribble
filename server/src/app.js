@@ -5,21 +5,20 @@ const cors = require('cors');
 const expressSession = require('express-session');
 const FileStore = require('session-file-store')(expressSession);
 
-const { corsMiddleware } = require('./corsMiddleware');
-const gameRouter = require('./routes/gameRouter');
-const userRouter = require('./routes/userRouter');
+const { corsMiddleware } = require('./middleware/corsMiddleware');
+const apiRouter = require('./routes/api.router');
 
 const app = express();
 
 const PORT = process.env.PORT || 3000;
 
 const sessionConfig = {
-  store: new FileStore(), // добавить после установки session-file-store
+  store: new FileStore(),
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 9999 * 60 * 1000, // устанавливаем сколько живет кука
+    maxAge: 9999 * 60 * 1000,
     httpOnly: true,
   },
 };
@@ -30,9 +29,8 @@ app.use(express.json());
 app.use(cors({ credentials: true, origin: true }));
 app.use(corsMiddleware);
 
-app.use('/', userRouter);
-app.use('/', gameRouter);
+app.use('/api', apiRouter);
 
 app.listen(PORT, () => {
-  console.log(`Server on port ${PORT}`);
+  console.log(`Server started on port ${PORT}`);
 });

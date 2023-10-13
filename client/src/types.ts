@@ -1,41 +1,27 @@
-import store from "./redux/store";
-
-export type LoginInputs = {
-  email: string;
-  password: string;
-};
-
-export type SignupInputs = {
-  login: string;
-  email: string;
-  password: string;
-};
-
-export type Topics = {
+export type Topic = {
   id: number;
   title: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 };
 
-export type Questions = {
+export interface Question {
   id: number;
   question: string;
   answer: string;
-  topic_id: number;
+  topicId: number;
   points: number;
-  createdAt: Date;
-  updatedAt: Date;
-};
+  answered?: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface StatsType {
   id: number;
-  user_id: number;
-  topic_id: number;
+  userId: number;
+  topicId: number;
   corr_answers: number;
-  total_points: number;
-  createdAt: Date;
-  updatedAt: Date;
+  totalPoints: number;
+  createdAt: string;
+  updatedAt: string;
 }
-
-export type RootState = ReturnType<typeof store.getState>;
