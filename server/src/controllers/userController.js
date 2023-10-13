@@ -1,24 +1,26 @@
-const bcrypt = require('bcrypt');
-const { Op } = require('sequelize');
-const { User } = require('../../db/models');
+const {
+  findUserByEmail,
+  comparePassword,
+  findOrCreateUser,
+} = require('../services/userService');
 
 module.exports.signup = async (req, res) => {
   const { login, email, password } = req.body;
   try {
-    const hashPassword = await bcrypt.hash(password, 8);
-    const isUserExists = await User.findOrCreate({
-      where: { [Op.or]: [{ login }, { email }] },
-      defaults: { login, email, password: hashPassword },
-    });
-    const [userData, isCreated] = isUserExists;
-    if (isCreated) {
-      req.session.username = userData.login;
-      res.json({
-        user: userData.login,
-        session: Boolean(req.session),
-      });
+    const userCheck = await findOrCreateUser(login, email, password);
+    if (userCheck) {
+      const [userData, isCreated] = userCheck;
+      if (isCreated) {
+        req.session.username = userData.login;
+        res.json({
+          user: userData.login,
+          session: Boolean(req.session),
+        });
+      } else {
+        res.status(400).json({ message: 'User already exists' });
+      }
     } else {
-      res.status(400).json({ message: 'User already exists' });
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error' });
@@ -28,12 +30,9 @@ module.exports.signup = async (req, res) => {
 module.exports.signin = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const currentUser = await User.findOne({ where: { email }, raw: true });
+    const currentUser = await findUserByEmail(email);
     if (currentUser) {
-      const passwordCheck = await bcrypt.compare(
-        password,
-        currentUser.password
-      );
+      const passwordCheck = comparePassword(password, currentUser.password);
       if (passwordCheck) {
         req.session.username = currentUser.login;
         res.json({

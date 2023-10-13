@@ -2,8 +2,6 @@ const { Router } = require('express');
 const {
   getTopics,
   getQuestions,
-  newGame,
-  markQuestionOpened,
 } = require('../controllers/gameController');
 
 const gameRouter = new Router();

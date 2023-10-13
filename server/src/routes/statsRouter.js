@@ -6,4 +6,4 @@ const {
 
 const statsRouter = new Router();
 
-module.exports = statsRouter.get('/', getUserStats).post('/:id', addUserStats);
+module.exports = statsRouter.get('/', getUserStats).post('/', addUserStats);

@@ -1,35 +1,30 @@
-const { Game, User } = require('../../db/models');
+const {
+  getAllUsersStats,
+  writeUserStat,
+} = require('../services/statsServices');
+const { findUserByLogin } = require('../services/userService');
 
 module.exports.getUserStats = async (req, res) => {
   try {
-    const stats = await Game.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ['login'],
-        },
-      ],
-      order: [['createdAt', 'DESC']],
-      raw: true,
-      nest: true,
-    });
-    res.json(stats);
+    const userRating = await getAllUsersStats();
+    res.json(userRating);
   } catch (error) {
     res.sendStatus(500);
   }
 };
 
 module.exports.addUserStats = async (req, res) => {
-  const { id } = req.params;
-  const { points } = req.body;
-  const currUser = await User.findOne({ where: { login: id }, raw: true });
-  const addStat = await Game.create({
-    userId: currUser.id,
-    totalPoints: points,
-  });
-  if (addStat) {
-    res.sendStatus(200);
-  } else {
+  try {
+    const { username } = req.session;
+    const { points } = req.body;
+    const currUser = await findUserByLogin(username);
+    const addStat = await writeUserStat(currUser.id, points);
+    if (addStat) {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(500);
+    }
+  } catch (error) {
     res.sendStatus(500);
   }
 };
