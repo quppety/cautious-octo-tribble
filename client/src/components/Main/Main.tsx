@@ -9,7 +9,18 @@ export default function Main() {
     (state: RootState) => state.gameControl
   );
   return (
-    <div className="block py-48 justify-center align-middle sm:py-10 sm:mt-40">
+    <div className="block py-48 justify-center align-middle sm:py-5 sm:mt-20">
+      <h2 className="sm:my-0 my-10 text-lg font-semibold text-blue-700">
+        Welcome to the Generic Quiz Game!
+      </h2>
+      <p className="mx-auto max-w-md italic text-blue-700 mb-2">
+        This is a web-based implementation of the classic TV quiz show,{' '}
+        <span className="font-semibold">Jeopardy!</span>.
+      </p>
+      <p className="mx-auto max-w-md italic text-blue-700 mb-10 sm:mb-12">
+        Test your knowledge, challenge your friends,{' '}
+        <span className="block"> and have loads of fun!</span>
+      </p>
       {user ? (
         <Link
           to="/topics"
@@ -20,13 +31,13 @@ export default function Main() {
         </Link>
       ) : (
         <>
-          <Link to="/signin" className="text-blue-900">
-            Sign in{' '}
+          <Link to="/signin" className="text-blue-800 underline">
+            Sign in
           </Link>{' '}
           or{' '}
-          <Link to="/signup" className="text-blue-900">
+          <Link to="/signup" className="text-blue-800 underline">
             {' '}
-            sign up{' '}
+            sign up
           </Link>{' '}
           to play
         </>

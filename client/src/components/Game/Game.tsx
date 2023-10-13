@@ -40,28 +40,30 @@ export default function GameStart() {
   }, [chosenQuestion, timer]);
 
   return (
-    <div className="">
-      <span className="block uppercase text-2xl font-semibold leading-6 text-blue-700 my-10">
+    <div className="md:w-screen sm:w-screen sm:content-center">
+      <span className="block uppercase text-2xl font-semibold leading-6 text-blue-700 my-10 md:mb-0 sm:mb-0">
         Your points: {userPoints}
       </span>
       {showModal && <AnswerModal />}
-      <table className="mt-16 mx-auto">
-        <tbody className="w-full divide-y divide-blue-gray-200">
-          {topics.map((topic) => (
-            <tr key={topic.id} className="even:bg-blue-gray-50/50">
-              <th className="p-4 text-white text-xl bg-blue-700">
-                {topic.title}
-              </th>
-              {questions
-                .filter((el) => el.topicId === topic.id)
-                .map((el) => (
-                  <QuestionBtn key={el.id} el={el} />
-                ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="mt-5 mb-[-15px] text-blue-700 font-semibold">
+      <div className="sm:w-11/12 overflow-x-auto md:10/12 md:ml-2 md:mr-2 sm:ml-4 sm:mr-2 sm:content-center">
+        <table className="mt-16 mx-auto md:w-11/12">
+          <tbody className="w-full divide-y divide-blue-gray-200">
+            {topics.map((topic) => (
+              <tr key={topic.id} className="even:bg-blue-gray-50/50">
+                <th className="p-4 sm:p-2 text-white text-xl bg-blue-700">
+                  {topic.title}
+                </th>
+                {questions
+                  .filter((el) => el.topicId === topic.id)
+                  .map((el) => (
+                    <QuestionBtn key={el.id} el={el} />
+                  ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="mt-5 mb-[-15px] text-blue-700 font-semibold sm:mx-3">
         Click button below to finish the game and record your points
       </p>
       <button

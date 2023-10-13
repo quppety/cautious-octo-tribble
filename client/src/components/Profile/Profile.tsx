@@ -10,11 +10,11 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="mx-10 pt-24">
+    <div className="mx-10 pt-24 sm:pt-5 sm:mx-7">
       <p className="block uppercase text-xl font-semibold leading-6 text-blue-700 m-5 mb-10">
         Game statistics
       </p>
-      <div className=" overflow-y-auto max-h-96 w-7/12 mx-auto">
+      <div className="overflow-y-auto max-h-96 w-7/12 sm:w-11/12 md:w-11/12 md:max-h-full sm:max-h-full mx-auto">
         <table className="mx-auto h-full w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-md text-center text-yellow-300 uppercase bg-blue-600">
             <tr>
@@ -45,7 +45,7 @@ export default function Profile() {
                   scope="row"
                   className="px-2 py-4 text-center text-md font-medium text-blue-700 whitespace-nowrap w-4/12"
                 >
-                  {new Date(stat.createdAt).toUTCString()}
+                  {new Date(stat.createdAt).toDateString()}
                 </td>
               </tr>
             ))}

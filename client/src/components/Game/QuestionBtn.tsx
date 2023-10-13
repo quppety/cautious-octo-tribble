@@ -10,7 +10,7 @@ export default function QuestionBtn({ el }: { el: Question }) {
   const { handleOpenQuestion } = useGameControl();
 
   return (
-    <td className="p-4 bg-blue-500">
+    <td className="p-4 sm:p-2 bg-blue-500">
       <button
         className="text-yellow-300 text-2xl font-semibold hover:bg-yellow-400 hover:text-blue-700"
         key={el.id}
