@@ -1,10 +1,4 @@
-const {
-  Topic,
-  Question,
-  User,
-  Game,
-  GameQuestion,
-} = require('../../db/models');
+const { Topic, Question } = require('../../db/models');
 
 module.exports.getTopics = async (req, res) => {
   const topics = await Topic.findAll({

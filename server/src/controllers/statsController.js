@@ -1,14 +1,22 @@
-const { Game, User, GameQuestion } = require('../../db/models');
+const { Game, User } = require('../../db/models');
 
 module.exports.getUserStats = async (req, res) => {
-  const { id } = req.params;
-  const currUser = await User.findOne({ where: { login: id }, raw: true });
-  const stats = await Game.findAll({
-    where: { userId: currUser.id },
-    order: [['createdAt', 'DESC']],
-    raw: true,
-  });
-  res.json(stats);
+  try {
+    const stats = await Game.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['login'],
+        },
+      ],
+      order: [['createdAt', 'DESC']],
+      raw: true,
+      nest: true,
+    });
+    res.json(stats);
+  } catch (error) {
+    res.sendStatus(500);
+  }
 };
 
 module.exports.addUserStats = async (req, res) => {
