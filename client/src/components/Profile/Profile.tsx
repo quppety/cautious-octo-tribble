@@ -10,7 +10,7 @@ export default function Profile() {
         Game statistics
       </p>
       <div className=" overflow-y-auto max-h-96 w-5/12 mx-auto">
-        <table className="mx-auto h-full w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <table className="mx-auto h-full w-full text-sm text-left text-gray-500 ">
           <thead className="text-md text-center text-yellow-300 uppercase bg-blue-600">
             <tr>
               <th scope="col" className="px-2 py-3 w-6/12">

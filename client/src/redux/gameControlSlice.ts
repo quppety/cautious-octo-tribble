@@ -16,7 +16,7 @@ const initialState: IGameControlState = {
   currAnswer: '',
   userPoints: 0,
   showModal: false,
-  timer: 10,
+  timer: 15,
   stats: [],
 };
 

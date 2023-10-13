@@ -35,7 +35,7 @@ export const useGameControl = () => {
     if (selectedQuestion) {
       dispatch(setChosenQuestion(selectedQuestion));
       dispatch(setShowModal(true));
-      dispatch(setTimer(10));
+      dispatch(setTimer(15));
     }
   };
 
